@@ -32,18 +32,19 @@
                 <div class="form-outline mb-4">
                   <label class="form-label">Paciente</label>
                   <select class="form-control" name="paciente">
-                    <?php
-                    require_once('../config.inc.php');
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-                    $consulta = "SELECT * FROM paciente";
-                    $result = $conn->query($consulta);
-                    while ($row = $result->fetch_assoc()) {
-                      echo "<option value='" . $row['idPaciente'] . "'>" . $row['nombre'] . "</option>";
-                    }
-                    $conn->close();
-                    ?>
+                      <?php
+                      require_once('../config.inc.php');
+                      $conn = new mysqli($servername, $username, $password, $dbname);
+                      $consulta = "SELECT * FROM paciente";
+                      $result = $conn->query($consulta);
+                      while ($row = $result->fetch_assoc()) {
+                          $nombreCompleto = $row['nombre'] . " " . $row['apellidoPaterno'] . " " . $row['apellidoMaterno']; // Concatenar nombre y apellidos
+                          echo "<option value='" . $row['idPaciente'] . "'>" . $nombreCompleto . "</option>";
+                      }
+                      $conn->close();
+                      ?>
                   </select>
-                </div>
+              </div>
 
                 <div class="form-outline mb-4">
                   <label class="form-label">Producto</label>
@@ -63,17 +64,28 @@
 
                 <div class="form-outline mb-4">
                 <?php
-                if (isset($_POST['producto'])) {
+                if (isset($_POST['productonatural'])) {
                   require_once('../config.inc.php');
                   $conn = new mysqli($servername, $username, $password, $dbname);
-                  $productoId = $_POST['producto'];
-                  $consultaPrecio = "SELECT precio FROM producto WHERE idProducto = '$productoId'";
-                  $resultPrecio = $conn->query($consultaPrecio);
-                  if ($resultPrecio && $resultPrecio->num_rows > 0) {
-                    $rowPrecio = $resultPrecio->fetch_assoc();
-                    $precio = $rowPrecio['precio'];
-                    echo "<input type='text' name='precio' id='precio' class='form-control' value='$precio' readonly />";
+                  if ($conn->connect_error) {
+                    die("Error de conexión: " . $conn->connect_error);
                   }
+                  
+                  $productonaturalId = $_POST['productonatural'];
+                  $consultaPrecio = "SELECT preciounitario FROM productonatural WHERE idProductoNatural = '$productonaturalId'";
+                  $resultPrecio = $conn->query($consultaPrecio);
+                  if (!$resultPrecio) {
+                    die("Error en la consulta: " . $conn->error);
+                  }
+
+                  if ($resultPrecio->num_rows > 0) {
+                    $rowPrecio = $resultPrecio->fetch_assoc();
+                    $preciounitario = $rowPrecio['preciounitario'];
+                    echo "<input type='text' name='precio' id='precio' class='form-control' value='$preciounitario' readonly />";
+                  } else {
+                    echo "<input type='text' name='precio' id='precio' class='form-control' readonly />";
+                  }
+                  
                   $conn->close();
                 } else {
                   echo "<input type='text' name='precio' id='precio' class='form-control' readonly />";
@@ -81,6 +93,9 @@
                 ?>
                 <label class="form-label" for="precio">Precio</label>
               </div>
+
+              
+
 
                 <div class="form-outline mb-4">
                 <label class="form-label" for="form3Example1q">Cantidad</label>

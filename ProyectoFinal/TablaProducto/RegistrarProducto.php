@@ -27,39 +27,40 @@ height: 100vh !important;
 
               <div class="form-outline mb-4">
                 <input type="text" name="nombre" id="form3Example1q" class="form-control" />
-                <label class="form-label" for="form3Example1q">Nombre</label>
+                <label class="form-label" for="form3Example1q">Nombre del Producto</label>
               </div>
 
               <div class="form-outline mb-4">
                 <input type="text" name="precio" id="form3Example1q" class="form-control" />
-                <label class="form-label" for="form3Example1q"> Precio</label>
+                <label class="form-label" for="form3Example1q"> Precio del producto</label>
               </div>
 
               <div class="form-outline mb-4">
                 <input type="text" name="cantidad" id="form3Example1q" class="form-control" />
-                <label class="form-label" for="form3Example1q">Cantidad</label>
+                <label class="form-label" for="form3Example1q">Stock del producto</label>
               </div>
 
               <div class="form-outline mb-4">
                 <input type="text" name="descripcion" id="form3Example1q" class="form-control" />
-                <label class="form-label" for="form3Example1q">Descripcion</label>
+                <label class="form-label" for="form3Example1q">Descripcion del producto</label>
               </div>
 
               <div class="form-outline mb-4">
-                  <label class="form-label">Cantidad</label>
-                  <select class="form-control" name="cantidad">
-                    <?php
-                    require_once('../config.inc.php');
-                    $conn = new mysqli($servername, $username, $password, $dbname);
-                    $consulta = "SELECT * FROM venta";
-                    $result = $conn->query($consulta);
-                    while ($row = $result->fetch_assoc()) {
-                      echo "<option value='" . $row['idVenta'] . "'>" . $row['cantidad'] . "</option>";
-                    }
-                    $conn->close();
-                    ?>
+                  <label class="form-label">Doctor</label>
+                  <select class="form-control" name="doctor">
+                      <?php
+                      require_once('../config.inc.php');
+                      $conn = new mysqli($servername, $username, $password, $dbname);
+                      $consulta = "SELECT * FROM doctor";
+                      $result = $conn->query($consulta);
+                      while ($row = $result->fetch_assoc()) {
+                          $nombreCompleto = $row['nombre'] . " " . $row['apellidop'] . " " . $row['apellidom']; // Concatenar nombre y apellidos
+                          echo "<option value='" . $row['idDoctor'] . "'>" . $nombreCompleto . "</option>";
+                      }
+                      $conn->close();
+                      ?>
                   </select>
-                </div>
+              </div>
 
               <button type="submit" class="btn btn-success btn-lg mb-1">Submit</button>
 

@@ -4,7 +4,7 @@ $nombre = $_POST["nombre"];
 $precio = $_POST["precio"];
 $cantidad = $_POST["cantidad"];
 $descripcion = $_POST["descripcion"];
-$cantidad = $_POST["cantidad"];
+$doctor = $_POST["doctor"];
 
 require_once('../config.inc.php');
 
@@ -16,8 +16,8 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "INSERT INTO producto (nombre, precio, cantidad, descripcion, idVenta)
-VALUES ('".$nombre."', '".$precio."', '".$cantidad."', '".$descripcion."' , '".$cantidad."')";
+$sql = "INSERT INTO productonatural (nombre, preciounitario, cantidad, descripcion, idDoctor)
+VALUES ('".$nombre."', '".$precio."', '".$cantidad."', '".$descripcion."' , '".$doctor."')";
 
 if ($conn->query($sql) === TRUE)
 {

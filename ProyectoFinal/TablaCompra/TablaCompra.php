@@ -35,7 +35,8 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
     require_once('../config.inc.php');
 
     $conn = new mysqli($servername, $username, $password, $dbname);
-    $consulta = "SELECT compra.*, paciente.nombre AS nombre_paciente, productonatural.nombre AS nombre_productonatural,
+    $consulta = "SELECT compra.*, paciente.nombre AS nombre_paciente, paciente.apellidoPaterno AS apellidop_paterno
+    , paciente.apellidoMaterno AS apellidom_materno, productonatural.nombre AS nombre_productonatural,
     productonatural.preciounitario AS precioproducto_natural
     FROM compra
     JOIN paciente ON compra.idPaciente = paciente.idPaciente
@@ -63,7 +64,7 @@ integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6
     {
         echo "<tr>";
         echo "<td class='table-secondary'>".$registro["nocompra"]."</td>";
-        echo "<td class='table-secondary'>".$registro["nombre_paciente"]."</td>";
+        echo "<td class='table-secondary'>".$registro["nombre_paciente"]." ".$registro["apellidop_paterno"]." ".$registro["apellidom_materno"]."</td>";
         echo "<td class='table-secondary'>".$registro["nombre_productonatural"]."</td>";
         echo "<td class='table-secondary'>".$registro["precioproducto_natural"]."</td>";
         echo "<td class='table-secondary'>".$registro["cantidad"]."</td>";

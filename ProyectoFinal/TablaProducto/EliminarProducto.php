@@ -1,6 +1,6 @@
 <?php
 
-$idProducto = $_POST["idProducto"];
+$idProductoNatural = $_POST["idProductoNatural"];
 
 require_once('../config.inc.php');
 
@@ -11,7 +11,7 @@ if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
 // sql to delete a record
-$sql = "DELETE FROM producto WHERE idProducto='" . $idProducto . "'";
+$sql = "DELETE FROM productonatural WHERE idProductoNatural='" . $idProductoNatural . "'";
 if (mysqli_query($conn, $sql))
 {
   $conn->close();

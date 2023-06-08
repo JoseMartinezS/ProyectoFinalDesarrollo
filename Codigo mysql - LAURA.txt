@@ -1,0 +1,102 @@
+CREATE DATABASE bd_TiendaNaturista;
+
+USE bd_TiendaNaturista;
+
+
+CREATE TABLE Compra
+(
+	idCompra int auto_increment,
+	nocompra int not null,
+	cantidad int not null,
+	fecha date not null,
+   	metodoPago varchar(50) not null,
+    total varchar(50) not null,
+    idPaciente int not null,
+	idProductoNatural int not null,
+	estatus bit default 1 not null,
+	primary key(idCompra)
+);
+
+CREATE TABLE Consulta
+(
+	idConsulta int auto_increment,
+	precioconsulta int not null,
+	fecha date not null,
+    diagnostico varchar(50) not null,
+    idDoctor int not null,
+	idPaciente int not null,
+	estatus bit default 1 not null,
+	primary key(idConsulta)
+);
+
+CREATE TABLE Doctor
+(
+	idDoctor int auto_increment,
+    nombre varchar(50) not null,
+	apellidop varchar(50) not null,
+    apellidom varchar(50) not null,
+	estatus bit default 1 not null,
+	primary key(idDoctor)
+);
+
+
+CREATE TABLE Paciente
+(
+	idPaciente int auto_increment,
+	nombre varchar(50) not null,
+	apellidoPaterno varchar(50) not null,
+	apellidoMaterno varchar(50) not null,
+    telefono int not null,
+	idDoctor int not null,
+	estatus bit default 1 not null,
+	primary key(idPaciente)
+);
+
+CREATE TABLE ProductoNatural
+(
+	idProductoNatural int auto_increment,
+	nombre varchar(50) not null,
+	preciounitario int not null,
+	cantidad int not null,
+    descripcion varchar(50) not null,
+	idDoctor int not null,
+	estatus bit default 1 not null,
+	primary key(idProductoNatural)
+);
+
+
+CREATE TABLE Usuario 
+(
+  	idUsuario int auto_increment,
+  	Nombre VARCHAR(100) not null,
+  	Correo VARCHAR(100) not null,
+  	Contraseña VARCHAR(100) not null,
+  	Estatus BIT DEFAULT 1 not null,
+	primary key(idUsuario)
+);
+
+
+
+ALTER TABLE Compra ADD FOREIGN KEY (idPaciente) REFERENCES 
+Paciente(idPaciente);
+ALTER TABLE Compra ADD FOREIGN KEY (idProductoNatural) REFERENCES 
+Paciente(idPaciente);
+
+
+ALTER TABLE Consulta ADD FOREIGN KEY (idDoctor) REFERENCES 
+Doctor(idDoctor);
+ALTER TABLE Consulta ADD FOREIGN KEY (idPaciente) REFERENCES 
+Paciente(idPaciente);
+
+ALTER TABLE Paciente ADD FOREIGN KEY (idDoctor) REFERENCES 
+Doctor(idDoctor);
+
+ALTER TABLE ProductoNatural ADD FOREIGN KEY (idDoctor) REFERENCES 
+Doctor(idDoctor);
+
+
+CREATE INDEX IX_Compra ON Compra(idCompra);
+CREATE INDEX IX_Consulta ON Consulta(idConsulta);
+CREATE INDEX IX_Doctor ON Doctor(idDoctor);
+CREATE INDEX IX_Paciente ON Paciente(idPaciente);
+CREATE INDEX IX_ProductoNatural ON ProductoNatural(idProductoNatural);

@@ -24,7 +24,7 @@
                         require_once('../config.inc.php');
 
                         // Obtener el ID del Producto
-                        $idProducto = $_POST['idProducto'];
+                        $idProductoNatural = $_POST['idProductoNatural'];
 
                         // Crear la conexión a la base de datos
                         $conn = new mysqli($servername, $username, $password, $dbname);
@@ -35,7 +35,7 @@
                         }
 
                         // Consulta para obtener los datos del Producto
-                        $consulta = "SELECT * FROM producto WHERE idProducto = $idProducto";
+                        $consulta = "SELECT * FROM productonatural WHERE idProductoNatural = $idProductoNatural";
                         $resultado = $conn->query($consulta);
 
                         // Verificar si se encontraron resultados
@@ -45,23 +45,44 @@
 
                             // Mostrar el formulario con los datos del Producto
                             echo '<form action="ModificarProducto.php" method="post">';
-                            echo '<div class="form-outline mb-4">';
-                            echo '<input type="text" name="nombre" id="form3Example1q" class="form-control" value="' . $registro['nombre'] . '"/>';
-                            echo '<label class="form-label" for="form3Example1q">Nombre</label>';
-                            echo '</div>';
-                            echo '<div class="form-outline mb-4">';
-                            echo '<input type="text" name="precio" id="form3Example1q" class="form-control" value="' . $registro['precio'] . '"/>';
-                            echo '<label class="form-label" for="form3Example1q">Precio</label>';
-                            echo '</div>';
-                            echo '<div class="form-outline mb-4">';
-                            echo '<input type="text" name="cantidad" id="form3Example1q" class="form-control" value="' . $registro['cantidad'] . '"/>';
-                            echo '<label class="form-label" for="form3Example1q">Cantidad</label>';
-                            echo '</div>';
-                            echo '<div class="form-outline mb-4">';
-                            echo '<input type="text" name="descripcion" id="form3Example1q" class="form-control" value="' . $registro['descripcion'] . '"/>';
-                            echo '<label class="form-label" for="form3Example1q">Descripcion</label>';
-                            echo '</div>';
-                            echo '<input type="hidden" name="idProducto" value="' . $idProducto . '"/>';
+                            echo '
+                            <div class="form-outline mb-4">
+                            <input type="text" name="nombre" id="form3Example1q" class="form-control" />
+                            <label class="form-label" for="form3Example1q">Nombre del Producto</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                            <input type="text" name="precio" id="form3Example1q" class="form-control" />
+                            <label class="form-label" for="form3Example1q"> Precio del producto</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                            <input type="text" name="cantidad" id="form3Example1q" class="form-control" />
+                            <label class="form-label" for="form3Example1q">Stock del producto</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                            <input type="text" name="descripcion" id="form3Example1q" class="form-control" />
+                            <label class="form-label" for="form3Example1q">Descripcion del producto</label>
+                            </div>
+
+                            <div class="form-outline mb-4">
+                            <label class="form-label">Doctor</label>
+                            <select class="form-control" name="doctor">';
+                                require_once('../config.inc.php');
+                                $conn = new mysqli($servername, $username, $password, $dbname);
+                                $consulta = "SELECT * FROM doctor";
+                                $result = $conn->query($consulta);
+                                while ($row = $result->fetch_assoc()) {
+                                $nombreCompleto = $row['nombre'] . " " . $row['apellidop'] . " " . $row['apellidom']; // Concatenar nombre y apellidos
+                                echo "<option value='" . $row['idDoctor'] . "'>" . $nombreCompleto . "</option>";
+                                }
+                                $conn->close();
+                            echo '
+                            </select>
+                            </div>';
+
+                            echo '<input type="hidden" name="idProductoNatural" value="' . $idProductoNatural . '"/>';
                             echo '<button type="submit" class="btn btn-success btn-lg mb-1">Actualizar</button>';
                             echo '</form>';
                         } else {
@@ -69,7 +90,7 @@
                         }
 
                         // Cerrar la conexión a la base de datos
-                        $conn->close();
+                        
                         ?>
                     </div>
                 </div>
